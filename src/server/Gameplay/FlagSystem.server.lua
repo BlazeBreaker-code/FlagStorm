@@ -17,7 +17,7 @@ local STATE_SPAWN   = "Spawn"
 local STATE_IN_PLAY = "InPlay"
 local STATE_FREE    = "Free"
 
-local DESPAWN_TIME  = 100   -- seconds before auto‐return
+local DESPAWN_TIME  = 6     -- seconds before auto‐return
 local PICKUP_DELAY  = 3     -- seconds before a dropped flag can be re‐picked
 
 --// Data containers
