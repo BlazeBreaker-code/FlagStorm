@@ -1,5 +1,3 @@
--- ServerScriptService/Gameplay/FlagSystem.lua
-
 --// Services
 local Players        = game:GetService("Players")
 local Replicated     = game:GetService("ReplicatedStorage")

@@ -1,5 +1,3 @@
--- StarterGui/ScoreboardGuiScript/UpdateScores.lua
-
 local Players          = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
