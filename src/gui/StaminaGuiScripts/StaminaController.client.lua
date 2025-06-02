@@ -91,9 +91,27 @@ RunService.RenderStepped:Connect(function(deltaTime)
         return
     end
 
+    local currentStamina = staminaValue.Value
+
+    -- If you have no stamina left, force-stop sprint and regen
+    if currentStamina <= 0 then
+        -- Always reset to walk speed
+        humanoid.WalkSpeed = WALK_SPEED
+        isSprinting = false
+
+        -- Regenerate stamina
+        if currentStamina < MAX_STAMINA then
+            staminaValue.Value = clamp(currentStamina + REGEN_RATE * deltaTime)
+        end
+
+        updateBar()
+        return
+    end
+
+    -- Otherwise, stamina > 0. Check if we can sprint this frame:
     local canSprint = sprintKeyDown
                       and humanoid.Health > 0
-                      and staminaValue.Value > MIN_STAMINA_TO_SPRINT
+                      and currentStamina > MIN_STAMINA_TO_SPRINT
 
     if canSprint then
         if not isSprinting then
@@ -101,18 +119,22 @@ RunService.RenderStepped:Connect(function(deltaTime)
             isSprinting = true
         end
 
-        staminaValue.Value = clamp(staminaValue.Value - DRAIN_RATE * deltaTime)
+        -- Drain stamina
+        staminaValue.Value = clamp(currentStamina - DRAIN_RATE * deltaTime)
         if staminaValue.Value <= 0 then
+            -- Out of stamina → force stop sprint
             staminaValue.Value = 0
-            stopSprint()
+            humanoid.WalkSpeed = WALK_SPEED
+            isSprinting = false
         end
     else
-        -- Regenerate stamina when not sprinting
-        if staminaValue.Value < MAX_STAMINA then
-            staminaValue.Value = clamp(staminaValue.Value + REGEN_RATE * deltaTime)
-        end
+        -- Not sprinting → ensure walk speed and regen
         if isSprinting then
-            stopSprint()
+            humanoid.WalkSpeed = WALK_SPEED
+            isSprinting = false
+        end
+        if currentStamina < MAX_STAMINA then
+            staminaValue.Value = clamp(currentStamina + REGEN_RATE * deltaTime)
         end
     end
 
