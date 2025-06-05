@@ -5,7 +5,8 @@
 
     "ServerScriptService": {
       "Leaderboard": { "$path": "src/server/Leaderboard" },
-      "Gameplay":    { "$path": "src/server/Gameplay" }
+      "Gameplay":    { "$path": "src/server/Gameplay" },
+	"AI":    { "$path": "src/server/AI" }
     },
 
     "StarterGui": {
